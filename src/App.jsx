@@ -2,8 +2,21 @@
 import React from 'react';
 import './index.css';
 import logo from './assets/logo.png';
+import {
+  Wallet,
+  TrendingUp,
+  TrendingDown,
+  PiggyBank,
+  DollarSign,
+  ShoppingCart,
+  ShoppingBagIcon,
+  ChartPie,
+  Clock, RefreshCw
+} from "lucide-react";
+import { useState } from "react";
 
 function App() {
+  const [showTransactionModal, setShowTransactionModal] = useState(false);
   return (
     <div className="app">
 
@@ -67,7 +80,9 @@ function App() {
               <div className="card-header">
                 <p>Total Balance</p>
                 <div className="card-icon dollar-icon">
-                  <i className="fa-solid fa-dollar-sign"></i>
+                  <div className="summary-icon balance-icon">
+                  <Wallet size={22} />
+                  </div>
                 </div>
               </div>
               <h2>$0</h2>
@@ -78,7 +93,9 @@ function App() {
               <div className="card-header">
                 <p>Monthly Income</p>
                 <div className="card-icon income-icon">
-                  <i className="fa-solid fa-arrow-up"></i>
+                  <div className="summary-icon balance-icon">
+                  <TrendingUp size={22} />
+                  </div>
                 </div>
               </div>
               <h2>$0</h2>
@@ -89,7 +106,9 @@ function App() {
               <div className="card-header">
                 <p>Monthly Expenses</p>
                 <div className="card-icon expense-icon">
-                  <i className="fa-solid fa-arrow-down"></i>
+                  <div className="summary-icon balance-icon">
+                  <TrendingDown size={22} />
+                  </div>
                 </div>
               </div>
               <h2>$0</h2>
@@ -100,7 +119,9 @@ function App() {
               <div className="card-header">
                 <p>Savings Rate</p>
                 <div className="card-icon savings-icon">
-                  <i className="fa-solid fa-piggy-bank"></i>
+                  <div className="summary-icon balance-icon">
+                  <PiggyBank size={22} />
+                  </div>
                 </div>
               </div>
               <h2>0%</h2>
@@ -116,7 +137,9 @@ function App() {
             <section className="panel financial-panel">
               <div className="panel-heading">
                 <h3>
-                  <i className="fa-solid fa-arrow-trend-up"></i>
+                  <div className="summary-icon balance-icon">
+                  <TrendingUp size={22} />
+                  </div>
                   Financial Overview
                   <span className="period-label">(This Month)</span>
                 </h3>
@@ -133,10 +156,9 @@ function App() {
                   <p>Track your income and expenses</p>
                 </div>
 
-                <button className="add-button">
-                  <i className="fa-solid fa-plus"></i>
-                  Add Transaction
-                </button>
+                <button className="add-transaction-btn">
+  Add Transaction
+</button>
 
                 <div className="period-filters">
                   <button>Daily</button>
@@ -151,7 +173,9 @@ function App() {
                 <div className="quick-card">
                   <div className="quick-title">
                     <span className="quick-icon balance-bg">
-                      <i className="fa-solid fa-wallet"></i>
+                      <div className="summary-icon balance-icon">
+                  <Wallet size={22} />
+                  </div>
                     </span>
                     <p>Total Balance</p>
                   </div>
@@ -165,7 +189,9 @@ function App() {
                 <div className="quick-card">
                   <div className="quick-title">
                     <span className="quick-icon expense-bg">
-                      <i className="fa-solid fa-arrow-down"></i>
+                      <div className="summary-icon balance-icon">
+                  <TrendingDown size={22} />
+                  </div>
                     </span>
                     <p>This Month Expenses</p>
                   </div>
@@ -179,7 +205,9 @@ function App() {
                 <div className="quick-card">
                   <div className="quick-title">
                     <span className="quick-icon savings-bg">
-                      <i className="fa-solid fa-piggy-bank"></i>
+                      <div className="summary-icon balance-icon">
+                  <PiggyBank size={22} />
+                  </div>
                     </span>
                     <p>This Month Savings</p>
                   </div>
@@ -199,7 +227,7 @@ function App() {
                   </div>
                   <h2>$0</h2>
                   <p>0%</p>
-                  <span>This Month data</span>
+                  <span>Today data</span>
                 </div>
 
                 <div className="gauge-card">
@@ -209,7 +237,7 @@ function App() {
                   </div>
                   <h2>$0</h2>
                   <p>0%</p>
-                  <span>This Month data</span>
+                  <span>Today data</span>
                 </div>
 
                 <div className="gauge-card">
@@ -219,7 +247,7 @@ function App() {
                   </div>
                   <h2>$0</h2>
                   <p>0%</p>
-                  <span>This Month data</span>
+                  <span>Today data</span>
                 </div>
 
               </div>
@@ -229,7 +257,9 @@ function App() {
           <section className="panel distribution-panel">
             <div className="panel-heading">
               <h3>
-                <i className="fa-solid fa-chart-pie distribution-icon"></i>
+                <div className="summary-icon balance-icon">
+                  <ChartPie size={22} color="#00BFA6"/>
+                  </div>
                 Expense Distribution
                 <span className="period-label">(This Month)</span>
               </h3>
@@ -251,7 +281,9 @@ function App() {
             <section className="panel record-panel" id="income">
               <div className="panel-heading">
                 <h3>
-                  <i className="fa-solid fa-arrow-trend-up income-heading-icon"></i>
+                 <div className="summary-icon balance-icon">
+                  <TrendingUp size={22} />
+                  </div>
                   Recent Income
                   <span className="period-label">(This Month)</span>
                 </h3>
@@ -263,7 +295,9 @@ function App() {
 
               <div className="record-empty">
                 <div className="record-empty-icon income-empty-icon">
-                  <i className="fa-solid fa-dollar-sign"></i>
+                  <div className="summary-icon balance-icon">
+                  <DollarSign size={22} />
+                  </div>
                 </div>
                 <p>No income transactions</p>
               </div>
@@ -276,7 +310,9 @@ function App() {
             <section className="panel record-panel" id="expenses">
               <div className="panel-heading">
                 <h3>
-                  <i className="fa-solid fa-arrow-down expense-heading-icon"></i>
+                  <div className="summary-icon balance-icon">
+                  <TrendingDown size={22} />
+                  </div>
                   Recent Expenses
                   <span className="period-label">(This Month)</span>
                 </h3>
@@ -288,7 +324,9 @@ function App() {
 
               <div className="record-empty">
                 <div className="record-empty-icon expense-empty-icon">
-                  <i className="fa-solid fa-cart-shopping"></i>
+                  <div className="summary-icon balance-icon">
+                  <ShoppingCart size={22} />
+                  </div>
                 </div>
                 <p>No expense transactions</p>
               </div>
@@ -303,7 +341,9 @@ function App() {
               <section className="panel recent-panel">
                 <div className="panel-heading">
                   <h3>
-                    <i className="fa-regular fa-clock recent-icon"></i>
+                    <div className="empty-transaction-icon">
+                    <Clock size={20} color="#A855F7"/>
+                    </div>
                     Recent Transactions
                   </h3>
 
@@ -321,7 +361,9 @@ function App() {
                 </p>
 
                 <div className="empty-transactions">
-                  <i className="fa-regular fa-clock"></i>
+                  <div className="summary-icon balance-icon">
+                  <Clock size={22} color="#A855F7" />
+                  </div>
                   <p>No recent transactions</p>
                 </div>
               </section>
@@ -330,7 +372,9 @@ function App() {
               <section className="panel spending-panel">
                 <div className="panel-heading">
                   <h3>
-                    <i className="fa-solid fa-chart-pie spending-icon"></i>
+                    <div className="summary-icon balance-icon">
+                  <ChartPie size={22} color="#00BFA6" />
+                  </div>
                     Spending by Category
                   </h3>
                 </div>
