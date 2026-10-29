@@ -16,9 +16,160 @@ import {
 import { useState } from "react";
 
 function App() {
-  const [showTransactionModal, setShowTransactionModal] = useState(false);
+const [showTransactionModal, setShowTransactionModal] = useState(false);
+
+const [transactions, setTransactions] = useState([]);
+
+const [formData, setFormData] = useState({
+  description: "",
+  amount: "",
+  type: "expense",
+  category: "Food",
+  date: new Date().toISOString().split("T")[0],
+});
+
+const handleFormChange = (e) => {
+  const { name, value } = e.target;
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+};
+
+const handleAddTransaction = (e) => {
+  e.preventDefault();
+
+  if (!formData.description.trim()) {
+    alert("Please enter a description.");
+    return;
+  }
+
+  if (!formData.amount || Number(formData.amount) <= 0) {
+    alert("Please enter an amount greater than zero.");
+    return;
+  }
+
+  const newTransaction = {
+    id: crypto.randomUUID(),
+    description: formData.description.trim(),
+    amount: Number(formData.amount),
+    type: formData.type,
+    category: formData.category,
+    date: formData.date,
+  };
+
+  setTransactions((prev) => [newTransaction, ...prev]);
+
+  setFormData({
+    description: "",
+    amount: "",
+    type: "expense",
+    category: "Food",
+    date: new Date().toISOString().split("T")[0],
+  });
+
+  setShowTransactionModal(false);
+};
   return (
     <div className="app">
+
+      {showTransactionModal && (
+  <div className="modal-overlay">
+    <form className="transaction-modal" onSubmit={handleAddTransaction}>
+      <div className="modal-header">
+        <h2>Add New Transaction</h2>
+
+        <button
+          type="button"
+          className="close-modal"
+          onClick={() => setShowTransactionModal(false)}
+          aria-label="Close form"
+        >
+          ×
+        </button>
+      </div>
+
+      <label>
+        Description
+        <input
+          name="description"
+          value={formData.description}
+          onChange={handleFormChange}
+          placeholder="Salary, Groceries, etc."
+          required
+        />
+      </label>
+
+      <label>
+        Amount
+        <input
+          name="amount"
+          type="number"
+          min="0.01"
+          step="0.01"
+          value={formData.amount}
+          onChange={handleFormChange}
+          placeholder="0.00"
+          required
+        />
+      </label>
+
+      <label>Type</label>
+      <div className="transaction-type-buttons">
+        <button
+          type="button"
+          className={formData.type === "income" ? "selected income" : ""}
+          onClick={() => setFormData((prev) => ({ ...prev, type: "income" }))}
+        >
+          Income
+        </button>
+
+        <button
+          type="button"
+          className={formData.type === "expense" ? "selected expense" : ""}
+          onClick={() => setFormData((prev) => ({ ...prev, type: "expense" }))}
+        >
+          Expense
+        </button>
+      </div>
+
+      <label>
+        Category
+        <select
+          name="category"
+          value={formData.category}
+          onChange={handleFormChange}
+        >
+          <option>Food</option>
+          <option>Salary</option>
+          <option>Travel</option>
+          <option>Shopping</option>
+          <option>Bills</option>
+          <option>Health</option>
+          <option>Education</option>
+          <option>Entertainment</option>
+          <option>Other</option>
+        </select>
+      </label>
+
+      <label>
+        Date
+        <input
+          type="date"
+          name="date"
+          value={formData.date}
+          onChange={handleFormChange}
+          required
+        />
+      </label>
+
+      <button type="submit" className="submit-transaction">
+        Add Transaction
+      </button>
+    </form>
+  </div>
+)}
 
       {/* Top Header */}
       <header className="header">
@@ -144,9 +295,12 @@ function App() {
                   <span className="period-label">(This Month)</span>
                 </h3>
 
-                <button className="filter-button">
-                  <i className="fa-solid fa-filter"></i> Filters
-                </button>
+                <button
+  type="button"
+  onClick={() => setShowTransactionModal(true)}
+>
+  Add Transaction
+</button>
               </div>
 
               {/* Finance Banner */}
@@ -156,9 +310,7 @@ function App() {
                   <p>Track your income and expenses</p>
                 </div>
 
-                <button className="add-transaction-btn">
-  Add Transaction
-</button>
+                
 
                 <div className="period-filters">
                   <button>Daily</button>
